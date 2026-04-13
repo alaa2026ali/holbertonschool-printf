@@ -10,14 +10,11 @@ int _printf(const char *format, ...)
 {
 	int i = 0, printed_chars = 0;
 	va_list arg_list;
-
 	/* check if format is NULL */
 	if (format == NULL)
 		return (-1);
-
 	/* start reading arguments */
 	va_start(arg_list, format);
-
 	/* loop through the format string */
 	while (format[i] != '\0')
 	{
@@ -25,12 +22,10 @@ int _printf(const char *format, ...)
 		if (format[i] == '%')
 		{
 			i++;
-
 			/* print character */
 			if (format[i] == 'c')
 			{
 				char c = va_arg(arg_list, int);
-
 				printed_chars += write(1, &c, 1);
 			}
 			/* print string */
@@ -38,10 +33,8 @@ int _printf(const char *format, ...)
 			{
 				char *str = va_arg(arg_list, char *);
 				int j = 0;
-
 				if (str == NULL)
-					str = "(null)";
-
+ 				str = "(null)";
 				/* loop through string */
 				while (str[j] != '\0')
 				{
@@ -66,12 +59,9 @@ int _printf(const char *format, ...)
 			/* print normal character */
 			printed_chars += write(1, &format[i], 1);
 		}
-
-		i++;
+	i++;
 	}
-
 	/* end using arguments */
 	va_end(arg_list);
-
 	return (printed_chars);
 }
