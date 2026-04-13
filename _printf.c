@@ -2,83 +2,63 @@
 
 /**
  * _printf - prints formatted output
- * @format: string containing text and format specifiers
+ * @format: format string
  *
  * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	int i = 0, printed_chars = 0;
+	int i = 0, count = 0;
 	va_list arg_list;
-	/* check if format is NULL */
+
 	if (format == NULL)
 		return (-1);
-	/* initialize argument list */
+
 	va_start(arg_list, format);
-	/* loop through each character in format string */
-	while (format[i] != '\0')
+
+	while (format[i])
 	{
-		/* check if current character is '%' */
 		if (format[i] == '%')
 		{
+			i++;
 
-                  write(1, "%", 1);
-		  printed_chars++;
-	        } 
-	          else if (format[i] == 'd' || format[i] == 'i')
-	        {
-		  int num = va_arg(arg_list, int);
-		  printed_chars += print_number(num);
-
-	  	    i++; /* move to next character (specifier) */
-			/* if '%' is last character, return error */
-			if (format[i] == '\0')
-			{
-				va_end(arg_list);
-				return (-1);
-			}
-			/* handle character specifier */
 			if (format[i] == 'c')
 			{
 				char c = va_arg(arg_list, int);
-				printed_chars += write(1, &c, 1);
+				count += write(1, &c, 1);
 			}
-			/* handle string specifier */
 			else if (format[i] == 's')
 			{
 				char *str = va_arg(arg_list, char *);
 				int j = 0;
-				/* if string is NULL, print (null) */
+
 				if (str == NULL)
 					str = "(null)";
-				/* print string character by character */
-				while (str[j] != '\0')
+
+				while (str[j])
 				{
-					printed_chars += write(1, &str[j], 1);
+					count += write(1, &str[j], 1);
 					j++;
 				}
 			}
-			/* handle '%%' (print % symbol) */
 			else if (format[i] == '%')
 			{
-				printed_chars += write(1, "%", 1);
+				count += write(1, "%", 1);
 			}
-			/* handle unknown specifier */
-			else
+			else if (format[i] == 'd' || format[i] == 'i')
 			{
-				/* print '%' and the unknown character */
-				printed_chars += write(1, "%", 1);
-				printed_chars += write(1, &format[i], 1);
+				int num = va_arg(arg_list, int);
+				count += print_number(num);
 			}
 		}
 		else
 		{
-			/* print normal characters */
-			printed_chars += write(1, &format[i], 1);
+			count += write(1, &format[i], 1);
 		}
-		i++; /* move to next character */
+
+		i++;
 	}
-	/* clean up argument list */
+
 	va_end(arg_list);
-	return (printed_chars);
+	return (count);
 }
