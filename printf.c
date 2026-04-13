@@ -13,55 +13,63 @@ int _printf(const char *format, ...)
 	/* check if format is NULL */
 	if (format == NULL)
 		return (-1);
-	/* start reading arguments */
+	/* initialize argument list */
 	va_start(arg_list, format);
-	/* loop through the format string */
+	/* loop through each character in format string */
 	while (format[i] != '\0')
 	{
-		/* if we find % */
+		/* check if current character is '%' */
 		if (format[i] == '%')
 		{
-			i++;
-			/* print character */
+			i++; /* move to next character (specifier) */
+			/* if '%' is last character, return error */
+			if (format[i] == '\0')
+			{
+				va_end(arg_list);
+				return (-1);
+			}
+			/* handle character specifier */
 			if (format[i] == 'c')
 			{
 				char c = va_arg(arg_list, int);
 				printed_chars += write(1, &c, 1);
 			}
-			/* print string */
+			/* handle string specifier */
 			else if (format[i] == 's')
 			{
 				char *str = va_arg(arg_list, char *);
 				int j = 0;
+				/* if string is NULL, print (null) */
 				if (str == NULL)
- 				str = "(null)";
-				/* loop through string */
+					str = "(null)";
+				/* print string character by character */
 				while (str[j] != '\0')
 				{
 					printed_chars += write(1, &str[j], 1);
 					j++;
 				}
 			}
-			/* print % */
+			/* handle '%%' (print % symbol) */
 			else if (format[i] == '%')
 			{
 				printed_chars += write(1, "%", 1);
 			}
-			/* unknown specifier */
+			/* handle unknown specifier */
 			else
 			{
+				/* print '%' and the unknown character */
 				printed_chars += write(1, "%", 1);
 				printed_chars += write(1, &format[i], 1);
 			}
 		}
 		else
 		{
-			/* print normal character */
+			/* print normal characters */
 			printed_chars += write(1, &format[i], 1);
 		}
-	i++;
+		i++; /* move to next character */
 	}
-	/* end using arguments */
+	/* clean up argument list */
 	va_end(arg_list);
 	return (printed_chars);
 }
