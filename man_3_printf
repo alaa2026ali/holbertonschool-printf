@@ -32,12 +32,13 @@ Prints an integer.
          Returns the number of characters printed (excluding the null byte).
          If an error occurs, -1 is returned.
 
-.SH EXAMPLE:
+.SH EXAMPLES
 .nf
 #include "main.h"
 int main(void)
 {
     _printf("Hello %s\n", "World");
+    _printf("%d\n", 123);
     return (0);
 }
 .fi
