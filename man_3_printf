@@ -32,9 +32,14 @@ Prints an integer.
          Returns the number of characters printed (excluding the null byte).
          If an error occurs, -1 is returned.
 
-.SH EXAMPLES
-        _printf("Hello %s\n", "Ali");
-        _printf("Number: %d\n", 123);
-
+.SH EXAMPLE:
+.nf
+#include "main.h"
+int main(void)
+{
+    _printf("Hello %s\n", "World");
+    return (0);
+}
+.fi
 .SH AUTHORS
         Alaa Aldwasari, Alhubaishi Asim
