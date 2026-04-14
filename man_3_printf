@@ -1,0 +1,40 @@
+.TH _printf 3 "April 2026" "1.0" "_printf manual"
+
+.SH NAME
+        _printf \- formatted output conversion
+
+.SH SYNOPSIS
+        .B #include "main.h"
+        .PP
+        .B int _printf(const char *format, ...);
+
+.SH DESCRIPTION
+        The _printf function produces output according to a format string.
+
+It supports the following conversion specifier:
+        .TP
+        .B %c
+Prints a single character.
+        .TP
+        .B %s
+Prints a string.
+        .TP
+        .B %%
+Prints a percent sign.
+       .TP
+       .B %d
+Prints an integer.
+      .TP
+      .B %i
+      Prints an integer.
+
+.SH RETURN VALUE
+      Returns the number of characters printed (excluding the null byte).
+      If an error occurs, -1 is returned.
+
+.SH EXAMPLES
+        _printf("Hello %s\n", "Ali");
+        _printf("Number: %d\n", 123);
+
+.SH AUTHORS
+Alaa Aldwasari, Alhubaishi Asim
