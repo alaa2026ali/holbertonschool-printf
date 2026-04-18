@@ -11,6 +11,7 @@ int _printf(const char *format, ...)
 	int i = 0, count = 0;
 	va_list arg_list;
 
+	/* Check if format is NULL */
 	if (format == NULL)
 		return (-1);
 
@@ -22,16 +23,29 @@ int _printf(const char *format, ...)
 		{
 			i++;
 
+			/* Handle case: '%' at end of string */
+			if (format[i] == '\0')
+			{
+				va_end(arg_list);
+				return (-1);
+			}
+
 			if (format[i] == 'c')
 			{
-				char c = va_arg(arg_list, int);
+				/* Print character */
+				char c;
+				c = va_arg(arg_list, int);
 				count += write(1, &c, 1);
 			}
 			else if (format[i] == 's')
 			{
-				char *str = va_arg(arg_list, char *);
+				/* Print string */
+				char *str;
 				int j = 0;
 
+				str = va_arg(arg_list, char *);
+
+				/* Handle NULL string */
 				if (str == NULL)
 					str = "(null)";
 
@@ -43,16 +57,27 @@ int _printf(const char *format, ...)
 			}
 			else if (format[i] == '%')
 			{
+				/* Print '%' */
 				count += write(1, "%", 1);
 			}
 			else if (format[i] == 'd' || format[i] == 'i')
 			{
-				int num = va_arg(arg_list, int);
+				/* Print integer */
+				int num;
+
+				num = va_arg(arg_list, int);
 				count += print_number(num);
+			}
+			else
+			{
+				/* Handle unknown specifier */
+				count += write(1, "%", 1);
+				count += write(1, &format[i], 1);
 			}
 		}
 		else
 		{
+			/* Print normal character */
 			count += write(1, &format[i], 1);
 		}
 
