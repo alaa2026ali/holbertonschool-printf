@@ -10,19 +10,15 @@ int _printf(const char *format, ...)
 {
 	int i = 0, count = 0;
 	va_list arg_list;
-
 	/* Check if format is NULL */
 	if (format == NULL)
 		return (-1);
-
 	va_start(arg_list, format);
-
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
 			i++;
-
 			/* Handle case: '%' at end of string */
 			if (format[i] == '\0')
 			{
@@ -42,13 +38,10 @@ int _printf(const char *format, ...)
 				/* Print string */
 				char *str;
 				int j = 0;
-
 				str = va_arg(arg_list, char *);
-
 				/* Handle NULL string */
 				if (str == NULL)
 					str = "(null)";
-
 				while (str[j])
 				{
 					count += write(1, &str[j], 1);
@@ -64,7 +57,6 @@ int _printf(const char *format, ...)
 			{
 				/* Print integer */
 				int num;
-
 				num = va_arg(arg_list, int);
 				count += print_number(num);
 			}
@@ -83,7 +75,6 @@ int _printf(const char *format, ...)
 
 		i++;
 	}
-
 	va_end(arg_list);
 	return (count);
 }
